@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    ".prettierrc": "jsonc",
+    ".prettierignore": "ignore",
+  },
+}

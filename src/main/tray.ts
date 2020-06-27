@@ -1,6 +1,6 @@
-import { Tray, Menu, nativeImage, NativeImage } from 'electron';
-import { TRAY_ICON, ACCELERATOR_SCREENSHOT } from './config'
-import { openScreenshotWindow } from './screenCapture'
+import {Tray, Menu, nativeImage, NativeImage} from 'electron'
+import {TRAY_ICON, ACCELERATOR_SCREENSHOT} from './config'
+import {openScreenshotWindow} from './screenCapture'
 
 // This arg should be optional but the type defs require it
 const HSL_NO_SHIFT = [
@@ -38,13 +38,13 @@ const constructTray = (): void => {
             icon: getMacOSAvailableIcon(),
         },
         {
-            type: 'separator'
+            type: 'separator',
         },
         {
             label: 'Take screenshot',
             type: 'normal',
             accelerator: ACCELERATOR_SCREENSHOT,
-            click: openScreenshotWindow
+            click: openScreenshotWindow,
         },
         {
             label: 'Quit',
@@ -56,8 +56,8 @@ const constructTray = (): void => {
 }
 
 type ScreenCropperTrayMenu = {
-  tray: Tray;
-  contextMenu: Menu;
+    tray: Tray
+    contextMenu: Menu
 }
 
 export const initTray = (): ScreenCropperTrayMenu => {

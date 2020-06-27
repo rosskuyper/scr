@@ -1,22 +1,27 @@
-export const createLock = () => {
-  let lock = false
+export type Lock = {
+    getLock: () => boolean
+    unlock: () => void
+}
 
-  const getLock = () => {
-    if (lock) {
-      return false
+export const createLock = (): Lock => {
+    let lock = false
+
+    const getLock = (): boolean => {
+        if (lock) {
+            return false
+        }
+
+        lock = true
+
+        return true
     }
 
-    lock = true
+    const unlock = (): void => {
+        lock = false
+    }
 
-    return true
-  }
-
-  const unlock = () => {
-    lock = false
-  }
-
-  return {
-    getLock,
-    unlock,
-  }
+    return {
+        getLock,
+        unlock,
+    }
 }

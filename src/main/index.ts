@@ -1,10 +1,10 @@
 /**
  * Entry point of the Election app.
  */
-import { app, globalShortcut } from 'electron';
-import { ACCELERATOR_SCREENSHOT } from './config'
-import { initTray } from './tray'
-import { openScreenshotWindow } from './screenCapture'
+import {app, globalShortcut} from 'electron'
+import {ACCELERATOR_SCREENSHOT} from './config'
+import {initTray} from './tray'
+import {openScreenshotWindow} from './screenCapture'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -27,6 +27,6 @@ app.on('window-all-closed', () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
-        app.quit();
+        app.quit()
     }
-});
+})
