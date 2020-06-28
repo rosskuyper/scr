@@ -1,7 +1,7 @@
 /**
  * Entry point of the Election app.
  */
-import {app, globalShortcut} from 'electron'
+import {app, globalShortcut, ipcMain} from 'electron'
 import {openScreenshotWindow} from './components/screenCapture'
 import {initTray} from './components/tray'
 import {ACCELERATOR_SCREENSHOT} from './config'
@@ -10,6 +10,11 @@ import {ACCELERATOR_SCREENSHOT} from './config'
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+    // Register the screenshot listener. When we're told about a captured screenshot we'll upload it to S3.
+    ipcMain.on('screenshot.captured', (_event, message) => {
+        console.log(message.image.length)
+    })
+
     // Register the tray and its menu
     initTray()
 

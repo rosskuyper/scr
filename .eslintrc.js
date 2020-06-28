@@ -24,5 +24,8 @@ module.exports = {
                 config: 'webpack.main.config.js',
             },
         },
+        'import/ignore': [
+            'node_modules',
+        ]
     },
 }

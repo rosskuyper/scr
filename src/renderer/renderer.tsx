@@ -1,35 +1,39 @@
-import dataUriToBuffer from 'data-uri-to-buffer'
-import React from 'react'
+import {AllElectron, ipcRenderer} from 'electron'
+import React, {useState} from 'react'
 import ReactDOM from 'react-dom'
+import {AreaSelect, DraggedAreaProps} from './components/AreaSelect'
 import './index.css'
-import {captureFullDesktopScreenshot} from './utils/desktopCapture'
 import {showErrorBox} from './utils/error'
-import {cropScreenshot} from './utils/image'
-import {saveImage} from './utils/aws'
+import {takeScreenShot} from './utils/screen'
 
-const takeScreenShot = async (): Promise<void> => {
-    try {
-        const screenshot = await captureFullDesktopScreenshot()
+const closeWindow = (): void => {
+    const {remote}: AllElectron = require('electron')
 
-        const bounds = {
-            x: 100,
-            y: 100,
-            w: 450,
-            h: 450,
-        }
-
-        const cropped = await cropScreenshot(dataUriToBuffer(screenshot), bounds)
-
-
-
-        const result = await saveImage(cropped)
-    } catch (error) {
-        showErrorBox('Screenshot failed', error.message)
-    }
+    remote.getCurrentWindow().close()
 }
 
 const ScreenCapture = (): JSX.Element => {
-    return <div id="scr" onClick={takeScreenShot}></div>
+    const [showAreaSelect, setShowAreaSelect] = useState(true)
+
+    const onAreaSelected = async (bounds: DraggedAreaProps) => {
+        // Let's only do this once
+        setShowAreaSelect(false)
+
+        try {
+            const image = await takeScreenShot(bounds)
+
+            ipcRenderer.send('screenshot.captured', {
+                image,
+            })
+
+            closeWindow()
+        } catch (error) {
+            showErrorBox('Screenshot failed', error.message)
+            closeWindow()
+        }
+    }
+
+    return <div id="scr">{showAreaSelect && <AreaSelect onAreaSelected={onAreaSelected} />}</div>
 }
 
 ReactDOM.render(<ScreenCapture />, document.getElementById('app'))

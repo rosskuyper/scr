@@ -60,7 +60,7 @@ const openBrowserWindow = (): void => {
     win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
     // todo remove for final build
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
 }
 
 /**

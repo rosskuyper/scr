@@ -7,7 +7,3 @@ html, body, #scr {
   min-height: 100vh !important;
   height: 100vh;
 }
-
-#scr {
-  cursor: crosshair;
-}
