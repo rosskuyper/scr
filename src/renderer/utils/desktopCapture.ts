@@ -57,7 +57,7 @@ const getImageUrlFromStream = async ({stream, width, height}: MediaStreamDetails
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
 
                 // send this somewhere
-                const image = canvas.toDataURL('image/png')
+                const image = canvas.toDataURL('image/png', 100)
 
                 // Remove hidden video tag
                 video.remove()
@@ -81,9 +81,11 @@ const getImageUrlFromStream = async ({stream, width, height}: MediaStreamDetails
 }
 
 export const captureFullDesktopScreenshot = async (): Promise<string> => {
-    // Full size screenshot
-    const width = window.outerWidth
-    const height = window.outerHeight
+    // Has to be required during the process
+    const {remote}: AllElectron = require('electron')
+
+    // The size of the screen recording will be the full size of the display
+    const {size: {width, height}} = remote.screen.getPrimaryDisplay()
 
     // Step 1 - get the entire screen
     const mainScreen = await getMainScreen()

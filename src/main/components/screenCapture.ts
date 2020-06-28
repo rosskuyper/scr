@@ -42,6 +42,7 @@ const openBrowserWindow = (): void => {
         transparent: true,
         webPreferences: {
             nodeIntegration: true,
+            enableRemoteModule: true,
         },
     })
 

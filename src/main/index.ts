@@ -2,7 +2,6 @@
  * Entry point of the Election app.
  */
 import {app, globalShortcut} from 'electron'
-import {registerMessagingListeners} from './components/rendererMessaging'
 import {openScreenshotWindow} from './components/screenCapture'
 import {initTray} from './components/tray'
 import {ACCELERATOR_SCREENSHOT} from './config'
@@ -13,9 +12,6 @@ import {ACCELERATOR_SCREENSHOT} from './config'
 app.on('ready', () => {
     // Register the tray and its menu
     initTray()
-
-    // Register IPC listeners
-    registerMessagingListeners()
 
     // Hide the dock icon, this app runs behind the scenes
     app.dock.hide()
