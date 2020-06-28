@@ -6,12 +6,22 @@ import {screenshotDateString} from '../utils/date'
 import './index.css'
 import {captureFullDesktopScreenshot} from './utils/desktopCapture'
 import {showErrorBox} from './utils/error'
+import {cropScreenshot} from './utils/image'
 
 const takeScreenShot = async (): Promise<void> => {
     try {
         const screenshot = await captureFullDesktopScreenshot()
 
-        fs.writeFileSync(`/Users/ross/Screenshots/scr-${screenshotDateString()}.png`, dataUriToBuffer(screenshot))
+        const bounds = {
+            x: 100,
+            y: 100,
+            w: 450,
+            h: 450,
+        }
+
+        const cropped = await cropScreenshot(dataUriToBuffer(screenshot), bounds)
+
+        fs.writeFileSync(`/Users/ross/Screenshots/scr-${screenshotDateString()}.png`, cropped)
     } catch (error) {
         showErrorBox('Screenshot failed', error.message)
     }
