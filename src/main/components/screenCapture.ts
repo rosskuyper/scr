@@ -1,5 +1,5 @@
 import {screen, BrowserWindow, systemPreferences, dialog} from 'electron'
-import {createLock} from '../utils/lock'
+import {createLock} from '../../utils/lock'
 
 // electron-forge gives us the correct path to our renderer
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
@@ -63,7 +63,7 @@ const openBrowserWindow = (): void => {
 }
 
 /**
- * If possible, open the
+ * If possible, open the window that will handle taking the screenshot
  */
 export const openScreenshotWindow = (): void => {
     // Check lock

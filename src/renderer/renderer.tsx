@@ -1,22 +1,31 @@
+import {format} from 'date-fns'
+import fs from 'fs'
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-// Import the styles here to process them with webpack
 import './index.css'
+import {captureFullDesktopScreenshot} from './utils/desktopCapture'
+import {showErrorBox} from './utils/error'
+
+const scrDate = (): string => {
+    const now = new Date()
+
+    return `${format(now, 'yyyy-mm-dd')} at ${format(now, 'HH:mm:ss')}`
+}
 
 const takeScreenShot = async (): Promise<void> => {
-    // Has to be required during the process
-    const { desktopCapturer } = require('electron')
+    try {
+        const screenshot = await captureFullDesktopScreenshot()
 
-    // Get the sources
-    const sources = await desktopCapturer.getSources({types: ['window', 'screen']})
+        console.log(screenshot.slice(0, 50))
 
-    // todo - get entire screen and capture a sub section of it
-    console.log('sources', sources)
+        fs.writeFileSync(`/Users/ross/Screenshots/scr-${scrDate()}.png`, screenshot)
+    } catch (error) {
+        showErrorBox('Screenshot failed', error.message)
+    }
 }
 
 const ScreenCapture = (): JSX.Element => {
-    return <div id="scr" onClick={takeScreenShot}>Hello</div>
+    return <div id="scr" onClick={takeScreenShot}></div>
 }
 
 ReactDOM.render(<ScreenCapture />, document.getElementById('app'))
