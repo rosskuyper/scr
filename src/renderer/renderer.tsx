@@ -1,12 +1,11 @@
 import dataUriToBuffer from 'data-uri-to-buffer'
-import fs from 'fs'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {screenshotDateString} from '../utils/date'
 import './index.css'
 import {captureFullDesktopScreenshot} from './utils/desktopCapture'
 import {showErrorBox} from './utils/error'
 import {cropScreenshot} from './utils/image'
+import {saveImage} from './utils/aws'
 
 const takeScreenShot = async (): Promise<void> => {
     try {
@@ -21,7 +20,9 @@ const takeScreenShot = async (): Promise<void> => {
 
         const cropped = await cropScreenshot(dataUriToBuffer(screenshot), bounds)
 
-        fs.writeFileSync(`/Users/ross/Screenshots/scr-${screenshotDateString()}.png`, cropped)
+
+
+        const result = await saveImage(cropped)
     } catch (error) {
         showErrorBox('Screenshot failed', error.message)
     }
